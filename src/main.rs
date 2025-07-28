@@ -162,6 +162,7 @@ fn main() -> Result<()> {
                     //Attempts to parse as date if dt is date
                     DataType::Date => {
                         NaiveDate::parse_from_str(val, "%Y-%m-%d")
+                            .or_else(|_| NaiveDate::parse_from_str(val, "%d/%m/%Y"))
                             .map(|d| d.to_string())
                             .unwrap_or_else(|_| "".to_string())
                     }
