@@ -2,13 +2,17 @@ use std::collections::HashMap;
 use std::env;
 use anyhow::{Result, anyhow};
 use csv::{ReaderBuilder, WriterBuilder, Trim};
+use chrono::{NaiveDateTime, NaiveDate, DateTime};
 
 #[derive(Debug)]
 enum DataType {
     Varchar(usize),
     Integer,
     Float,
-    Boolean
+    Boolean,
+    Timestamp,
+    Timestamptz,
+    Date
 }
 
 //Parse Datatype names filled out on the mapping csv
@@ -31,6 +35,18 @@ fn parse_data_type(s: &str) -> Result<DataType> {
     //check if boolean
     else if s.eq_ignore_ascii_case("boolean") {
         Ok(DataType::Boolean)
+    }
+    //check if timestamp
+    else if s.eq_ignore_ascii_case("timestamp") {
+        Ok(DataType::Timestamp)
+    }
+    //check if timestamptz
+    else if s.eq_ignore_ascii_case("timestamptz") {
+        Ok(DataType::Timestamptz)
+    }
+    //check if date
+    else if s.eq_ignore_ascii_case("date") {
+        Ok(DataType::Date)
     }
     // if datatype in mapping doesn't match any of the above throw an error
     else {
@@ -115,9 +131,40 @@ fn main() -> Result<()> {
                         .map(|v| v.to_string())
                         .unwrap_or_else(|_| "".to_string()),
                     //Attempts to parse as bool if dt is boolean
-                    DataType::Boolean => val.parse::<bool>()
-                        .map(|v| v.to_string())
-                        .unwrap_or_else(|_| "".to_string()),
+                    DataType::Boolean => {
+                        let normalized = val.trim().to_lowercase();
+                        let parsed = match normalized.as_str() {
+                            "true" | "yes" | "1" => Some(true),
+                            "false" | "no" | "0" => Some(false),
+                            _ => val.parse::<bool>().ok(),
+                        };
+                        parsed
+                            .map(|v| v.to_string())
+                            .unwrap_or_else(|| "".to_string())
+                    },
+                    //Attempts to parse as datetime if dt is timestamp
+                    DataType::Timestamp => {
+                        NaiveDateTime::parse_from_str(val, "%Y-%m-%d %H:%M:%S")
+                            .map(|dt| dt.to_string())
+                            .unwrap_or_else(|_| "".to_string())
+                    },
+                    //Attempts to parse as datetime if dt is timestamptz
+                    DataType::Timestamptz => {
+                        DateTime::parse_from_str(val, "%Y-%m-%d %H:%M:%S%.f %:z")
+                            .map(|dtz| dtz.format("%Y-%m-%d %H:%M:%S%.f %:z").to_string())
+                            .unwrap_or_else(|_| {
+                                val.parse::<i64>().ok()
+                                    .and_then(|ts| DateTime::from_timestamp(ts, 0))
+                                    .map(|dt| dt.format("%Y-%m-%d %H:%M:%S%.f %:z").to_string())
+                                    .unwrap_or_else(|| "".to_string())
+                            })
+                    },
+                    //Attempts to parse as date if dt is date
+                    DataType::Date => {
+                        NaiveDate::parse_from_str(val, "%Y-%m-%d")
+                            .map(|d| d.to_string())
+                            .unwrap_or_else(|_| "".to_string())
+                    }
                 };
                 //Add the transformed val to the output row
                 output_row.push(transformed);
