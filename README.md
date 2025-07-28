@@ -11,8 +11,8 @@ PLEASE NOTE THIS IS STILL A WIP AND IS ONLY DESIGNED TO WORK WITH DATA TYPES ASS
 ```
 wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.2/sqlsafecsv.tar
 tar -xf sqlsafecsv.tar
-chmod -u+x sqlsafecsv
-mv sqlsafecsv /usr/bin/
+chmod -u+x ./target/release/sqlsafecsv
+mv ./target/release/sqlsafecsv /usr/bin/
 ```
 
 (use sudo if permissions are denied on ubuntu)    
@@ -21,8 +21,8 @@ mv sqlsafecsv /usr/bin/
 ```
 wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.2/sqlsafecsv_alpine
 tar -xf sqlsafecsv_alpine.tar
-chmod -u+x sqlsafecsv_alpine
-mv sqlsafecsv_alpine /usr/bin/sqlsafe
+chmod -u+x ./target/release/sqlsafecsv_alpine
+mv ./target/release/sqlsafecsv_alpine /usr/bin/sqlsafe
 ```
 
 ## Usage:
