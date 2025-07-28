@@ -5,7 +5,7 @@ PLEASE NOTE THIS IS STILL A WIP AND IS ONLY DESIGNED TO WORK WITH DATA TYPES ASS
 
 ## Installation:
 
-### run the foolowing commands:
+### run the following commands:
 
 #### For Ubuntu:  
 ```
