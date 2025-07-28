@@ -20,14 +20,14 @@ mv sqlsafecsv /usr/bin/
 analyze your raw csv making note of all the columns you want to print into the output file
 then create a mapping csv in the following format:
 
-field_name,data_type 
-column_1,varchar(10) 
-column_2,integer 
-column_3,float 
-column_4,timestamp 
-column_5,timestamptz 
-column_6,date 
-column_7,boolean 
+field_name,data_type  
+column_1,varchar(10)  
+column_2,integer  
+column_3,float  
+column_4,timestamp  
+column_5,timestamptz  
+column_6,date  
+column_7,boolean  
 
 (See list of datatypes and formats accepted at the bottom of the readme)
 
