@@ -7,10 +7,18 @@ PLEASE NOTE THIS IS STILL A WIP AND IS ONLY DESIGNED TO WORK WITH DATA TYPES ASS
 
 ###run the foolowing commands:
 
+For Ubuntu:  
 ```
 wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.1/sqlsafecsv
 chmod -u+x sqlsafecsv
 mv sqlsafecsv /usr/bin/
+```
+
+For Alpine:  
+```
+wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.1/sqlsafecsv_alpine
+chmod -u+x sqlsafecsv_alpine
+mv sqlsafecsv_alpine /usr/bin/sqlsafe
 ```
 
 (use sudo if permissions are denied on ubuntu)    
