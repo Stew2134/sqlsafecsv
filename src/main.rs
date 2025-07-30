@@ -163,6 +163,32 @@ fn main() -> Result<()> {
                     DataType::Date => {
                         NaiveDate::parse_from_str(val, "%Y-%m-%d")
                             .or_else(|_| NaiveDate::parse_from_str(val, "%d/%m/%Y"))
+                            .or_else(|_| {
+                                let lv = val.trim().to_lowercase();
+                                let v: Vec<&str> = lv.split(' ').collect();
+                                let month = v[0];
+                                let mut year = "0000";
+                                if v.len() > 1 {
+                                    year = v[1];
+                                }
+                                let parsed_month = match month {
+                                    "january" | "jan" => 1,
+                                    "february" | "feb" => 2,
+                                    "march" | "mar" => 3,
+                                    "april" | "apr" => 4,
+                                    "may" => 5,
+                                    "june" | "jun" => 6,
+                                    "july" | "jul" => 7,
+                                    "august" | "aug" => 8,
+                                    "september" | "sep" => 9,
+                                    "october" | "oct" => 10,
+                                    "november" | "nov" => 11,
+                                    "december" | "dec" => 12,
+                                    _ => 0
+                                };
+                                let parsed_date = format!("{}-{}-01",year,parsed_month);
+                                NaiveDate::parse_from_str(&parsed_date,"%Y-%m-%d")
+                            })
                             .map(|d| d.to_string())
                             .unwrap_or_else(|_| "".to_string())
                     }

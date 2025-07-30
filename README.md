@@ -9,20 +9,20 @@ PLEASE NOTE THIS IS STILL A WIP AND IS ONLY DESIGNED TO WORK WITH DATA TYPES ASS
 
 #### For Ubuntu:  
 ```
-wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.2/sqlsafecsv.tar
-tar -xf sqlsafecsv.tar
-chmod -u+x ./target/release/sqlsafecsv
-mv ./target/release/sqlsafecsv /usr/bin/
+wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.3/sqlsafecsv.tar.gz
+tar -xzvf sqlsafecsv.tar.gz
+chmod -u+x sqlsafecsv
+mv sqlsafecsv /usr/bin/
 ```
 
 (use sudo if permissions are denied on ubuntu)    
 
 #### For Alpine:  
 ```
-wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.2/sqlsafecsv_alpine
-tar -xf sqlsafecsv_alpine.tar
-chmod -u+x ./target/release/sqlsafecsv_alpine
-mv ./target/release/sqlsafecsv_alpine /usr/bin/sqlsafe
+wget https://github.com/Stew2134/sqlsafecsv/releases/download/v0.3/sqlsafecsv_alpine.tar.gz
+tar -xzvf sqlsafecsv_alpine.tar.gz
+chmod -u+x sqlsafecsv
+mv sqlsafecsv /usr/bin/sqlsafe
 ```
 
 ## Usage:
@@ -83,7 +83,8 @@ sqlsafecsv <mapping>.csv <input>.csv > <output>.csv
     - formats supported: 
         - YYYY-MM-DD 
         - DD/MM/YYYY  
-
+	- Month YYYY (e.g. January 2021 is case insensitive)  
+	- Mon YYYY (e.g. Jan 2021 is case insensitive)  
     - if the value in the csv does not match on one of the above formats a blank string will be passed in to ensure safety 
 
 - BOOLEAN 
