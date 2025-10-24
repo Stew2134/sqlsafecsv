@@ -69,7 +69,7 @@ sqlsafecsv <mapping>.csv <input>.csv > <output>.csv
 - TIMESTAMP : 
     - formats supported: 
         - YYYY-MM-DD HH:MM:SS 
-
+        - YYYY-MM-DDTHH:MM:SS.3F
     - if the value in the csv does not match one of the formats above a blank string will be passed in to ensure safety 
 
 - TIMESTAMPTZ: 

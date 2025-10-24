@@ -24,6 +24,9 @@ fn parse_data_type(s: &str) -> Result<DataType> {
     if let Some(l) = s.strip_prefix("varchar(").and_then(|r| r.strip_suffix(')')) {
         Ok(DataType::Varchar(l.parse()?))
     }
+    else if let Some(l) = s.strip_prefix("VARCHAR(").and_then(|r| r.strip_suffix(')')) {
+        Ok(DataType::Varchar(l.parse()?))
+    }
     //check if integer
     else if s.eq_ignore_ascii_case("integer") {
         Ok(DataType::Integer)
@@ -145,6 +148,7 @@ fn main() -> Result<()> {
                     //Attempts to parse as datetime if dt is timestamp
                     DataType::Timestamp => {
                         NaiveDateTime::parse_from_str(val, "%Y-%m-%d %H:%M:%S")
+                            .or_else(|_| NaiveDateTime::parse_from_str(val, "%Y-%m-%dT%H:%M:%S%.3f"))
                             .map(|dt| dt.to_string())
                             .unwrap_or_else(|_| "".to_string())
                     },
