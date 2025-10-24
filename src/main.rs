@@ -5,6 +5,7 @@ use csv::{ReaderBuilder, WriterBuilder, Trim};
 use chrono::{NaiveDateTime, NaiveDate, DateTime};
 
 #[derive(Debug)]
+
 enum DataType {
     Varchar(usize),
     Integer,
@@ -55,6 +56,17 @@ fn parse_data_type(s: &str) -> Result<DataType> {
     else {
         Err(anyhow!("Unknown data type: {}", s))
     }
+}
+
+fn truncate_bytes(s: &str, max_len: usize) -> &str {
+    if s.len() <= max_len {
+        return s;
+    }
+    let mut end = max_len;
+    while !s.is_char_boundary(end) {
+        end -= 1;
+    }
+    &s[..end]
 }
 
 fn main() -> Result<()> {
@@ -122,7 +134,7 @@ fn main() -> Result<()> {
                 //transform functions for value according to datatype
                 let transformed = match dtype {
                     //Attempts convert value to Varchar if dt is varchar and truncates to length
-                    DataType::Varchar(max_len) => val.chars().take(*max_len).collect(),
+                    DataType::Varchar(max_len) => truncate_bytes(val, *max_len).to_string(),
                     //Attempts convert value to Integer by first converting to float and then
                     //rounding (worth noting that float size is higher to allow for the largest
                     //ints in i32
