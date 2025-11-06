@@ -161,6 +161,7 @@ fn main() -> Result<()> {
                     DataType::Timestamp => {
                         NaiveDateTime::parse_from_str(val, "%Y-%m-%d %H:%M:%S")
                             .or_else(|_| NaiveDateTime::parse_from_str(val, "%Y-%m-%dT%H:%M:%S%.3f"))
+                            .or_else(|_| NaiveDateTime::parse_from_str(val, "%Y-%m-%dT%H:%M:%S%.3fZ"))
                             .map(|dt| dt.to_string())
                             .unwrap_or_else(|_| "".to_string())
                     },
